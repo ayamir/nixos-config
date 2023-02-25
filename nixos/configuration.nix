@@ -196,7 +196,7 @@
             konsole
             plasma-browser-integration
         ];
-      }
+      };
     };
     openssh = {
       enable = true;
