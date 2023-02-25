@@ -76,6 +76,7 @@
   # Setting for bool options
   boot = {
     loader = {
+      timeout = 15;
       systemd-boot.enable = true;
       efi = {
         canTouchEfiVariables = true;
@@ -94,8 +95,8 @@
   networking = {
     hostName = "eva00";
     networkmanager.enable = true;
-    # proxy.default = "http://127.0.0.1:7890";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+    proxy.default = "http://127.0.0.1:7890";
+    proxy.noProxy = "127.0.0.1,localhost,internal.domain";
     hosts = {
       "185.199.109.133" = [ "raw.githubusercontent.com" ];
       "185.199.111.133" = [ "raw.githubusercontent.com" ];
