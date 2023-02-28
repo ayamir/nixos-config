@@ -185,16 +185,16 @@
       layout = "us";
       xkbVariant = "";
       videoDrivers = [ "amdgpu" ];
-      displayManager = { 
+      displayManager = {
         sddm.enable = true;
       };
       desktopManager.plasma5 = {
         enable = true;
         excludePackages = with pkgs.libsForQt5; [
-            elisa
-            khelpcenter
-            konsole
-            plasma-browser-integration
+          elisa
+          khelpcenter
+          konsole
+          plasma-browser-integration
         ];
       };
     };
@@ -216,6 +216,7 @@
         gh
         lsd
         exa
+        hugo
         fish
         cava
         kitty
@@ -244,11 +245,11 @@
   };
 
   # Setting for sudo
-  security.sudo.extraRules= [{
+  security.sudo.extraRules = [{
     users = [ "ayamir" ];
     commands = [{
-        command = "ALL" ;
-        options= [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
+      command = "ALL";
+      options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
     }];
   }];
 
@@ -281,11 +282,11 @@
 
   # Set environment
   environment.sessionVariables = rec {
-    XDG_CACHE_HOME  = "\${HOME}/.cache";
+    XDG_CACHE_HOME = "\${HOME}/.cache";
     XDG_CONFIG_HOME = "\${HOME}/.config";
-    XDG_BIN_HOME    = "\${HOME}/.local/bin";
-    XDG_DATA_HOME   = "\${HOME}/.local/share";
-    PATH = [ 
+    XDG_BIN_HOME = "\${HOME}/.local/bin";
+    XDG_DATA_HOME = "\${HOME}/.local/share";
+    PATH = [
       "\${XDG_BIN_HOME}"
     ];
   };

@@ -11,7 +11,7 @@
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
+    ./nvim.nix
   ];
 
   nixpkgs = {
@@ -58,8 +58,10 @@
 
   # Add stuff for your user as you see fit:
   programs = {
-    git.enable = true;
     home-manager.enable = true;
+    git = {
+      enable = true;
+    };
   };
 
   # Nicely reload system units when changing configs
