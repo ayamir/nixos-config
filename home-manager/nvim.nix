@@ -1,4 +1,4 @@
-{config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 
 let
   lsp_via_npm = pkgs.writeShellScriptBin "lsp_via_npm" ''
@@ -17,8 +17,8 @@ in
       enable = true;
       withNodeJs = true;
       withPython3 = true;
-      extraPackages = [];
-      plugins = with pkgs.vimPlugins; [];
+      vimdiffAlias = true;
+      extraPackages = [ ];
     };
   };
   home = {

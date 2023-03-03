@@ -61,6 +61,30 @@
     home-manager.enable = true;
     git = {
       enable = true;
+      difftastic = {
+        enable = true;
+        background = "light";
+        color = "auto";
+        display = "side-by-side";
+      };
+    };
+    gh = {
+      enable = true;
+      enableGitCredentialHelper = true;
+      package = pkgs.gh;
+      settings = {
+        git_protocol = "ssh";
+        prompt = "enabled";
+        editor = "nvim";
+        alias = {
+          co = "pr checkout";
+          pv = "pr view";
+        };
+      };
+    };
+    lazygit = {
+      enable = true;
+      package = pkgs.lazygit;
     };
   };
 
@@ -70,3 +94,4 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "22.11";
 }
+
