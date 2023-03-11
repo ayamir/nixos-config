@@ -327,12 +327,14 @@
     neovim
     sqlite
     zoxide
+    python
     gnumake
     ripgrep
     neofetch
     iptables
     htop-vim
     xdg-utils
+    python.pkgs.pip
     ffmpegthumbnailer
   ];
 }
