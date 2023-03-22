@@ -211,7 +211,7 @@
       shell = pkgs.fish;
       isNormalUser = true;
       description = "ayamir";
-      extraGroups = [ "wheel" "docker" "networkmanager" "audio" ];
+      extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
       packages = with pkgs; [
         gh
         lsd
@@ -228,6 +228,7 @@
         tdesktop
         obsidian
         google-chrome
+        microsoft-edge
         vivaldi-ffmpeg-codecs
         whitesur-gtk-theme
         whitesur-icon-theme
