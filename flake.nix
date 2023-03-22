@@ -16,9 +16,6 @@
     # NUR
     nur.url = "github:nix-community/NUR";
 
-    # Hyprland
-    hyprland.url = "github:hyprwm/Hyprland";
-
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 
@@ -27,7 +24,7 @@
     # nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, hyprland, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
     let
       inherit (self) outputs;
       forAllSystems = nixpkgs.lib.genAttrs [
@@ -83,10 +80,6 @@
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/home.nix
-            hyprland.nixosModules.default
-            {
-              programs.hyprland.enable = true;
-            }
           ];
         };
       };
