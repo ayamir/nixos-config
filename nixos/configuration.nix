@@ -177,14 +177,14 @@
   };
   security = {
     rtkit.enable = true;
-    polkit.enable = true;
+    security.polkit.enable = true;
   };
 
   # Setting for desktop environment and SSH session
   services = {
     xserver = {
       dpi = 180;
-      enable = true;
+      enable = false;
       layout = "us";
       xkbVariant = "";
       videoDrivers = [ "amdgpu" ];
