@@ -175,13 +175,16 @@
       #media-session.enable = true;
     };
   };
-  security.rtkit.enable = true;
+  security = {
+    rtkit.enable = true;
+    security.polkit.enable = true;
+  };
 
   # Setting for desktop environment and SSH session
   services = {
     xserver = {
       dpi = 180;
-      enable = true;
+      enable = false;
       layout = "us";
       xkbVariant = "";
       videoDrivers = [ "amdgpu" ];
@@ -211,7 +214,7 @@
       shell = pkgs.fish;
       isNormalUser = true;
       description = "ayamir";
-      extraGroups = [ "wheel" "docker" "networkmanager" "audio" ];
+      extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
       packages = with pkgs; [
         gh
         lsd
@@ -224,11 +227,10 @@
         feishu
         # wezterm
         lazygit
-        vivaldi
         tdesktop
         obsidian
         google-chrome
-        vivaldi-ffmpeg-codecs
+        microsoft-edge
         whitesur-gtk-theme
         whitesur-icon-theme
         config.nur.repos.xddxdd.qq
