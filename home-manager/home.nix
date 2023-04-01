@@ -80,13 +80,12 @@
     nur.repos.xddxdd.wechat-uos
     nur.repos.linyinfeng.wemeet
     nur.repos.linyinfeng.clash-for-windows
-    nur.repos.eh5.netease-cloud-music
     nur.repos.rewine.electron-netease-cloud-music
     # Browser
     google-chrome
     microsoft-edge
-    vivaldi
-    vivaldi-ffmpeg-codecs
+    # vivaldi
+    # vivaldi-ffmpeg-codecs
     # Theme
     whitesur-gtk-theme
     whitesur-icon-theme
