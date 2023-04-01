@@ -228,6 +228,7 @@
         tdesktop
         obsidian
         google-chrome
+        microsoft-edge
         vivaldi-ffmpeg-codecs
         whitesur-gtk-theme
         whitesur-icon-theme
