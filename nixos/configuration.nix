@@ -212,40 +212,6 @@
       isNormalUser = true;
       description = "ayamir";
       extraGroups = [ "wheel" "docker" "networkmanager" "audio" ];
-      packages = with pkgs; [
-        # Tools
-        gh
-        hugo
-        cava
-        copyq
-        kitty
-        lazygit
-        # wezterm
-        # Note
-        logseq
-        obsidian
-        # Daily
-        feishu
-        tdesktop
-        config.nur.repos.xddxdd.qq
-        config.nur.repos.xddxdd.wechat-uos
-        config.nur.repos.xddxdd.qqmusic
-        config.nur.repos.linyinfeng.wemeet
-        config.nur.repos.linyinfeng.clash-for-windows
-        config.nur.repos.eh5.netease-cloud-music
-        config.nur.repos.rewine.electron-netease-cloud-music
-        # Browser
-        google-chrome
-        microsoft-edge
-        vivaldi
-        vivaldi-ffmpeg-codecs
-        # Theme
-        whitesur-gtk-theme
-        whitesur-icon-theme
-        # Fonts
-        config.nur.repos.rewine.ttf-ms-win10
-        config.nur.repos.rewine.ttf-wps-fonts
-      ];
     };
   };
 

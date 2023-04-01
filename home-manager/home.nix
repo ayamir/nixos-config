@@ -1,7 +1,7 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ inputs, outputs, lib, config, pkgs, nurlock, ... }: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -44,9 +44,14 @@
         "electron-19.0.7"
       ];
       packageOverrides = pkgs: {
-        nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-          inherit pkgs;
-        };
+        nur = import
+          (builtins.fetchTarball {
+            url = "https://github.com/nix-community/NUR/archive/${nurlock.rev}.tar.gz";
+            sha256 = nurlock.narHash;
+          })
+          {
+            inherit pkgs;
+          };
       };
     };
   };
@@ -55,6 +60,37 @@
     username = "ayamir";
     homeDirectory = "/home/ayamir";
   };
+
+  home.packages = with pkgs; [
+    # Tools
+    gh
+    hugo
+    cava
+    copyq
+    kitty
+    lazygit
+    # wezterm
+    # Note
+    logseq
+    obsidian
+    # Daily
+    feishu
+    tdesktop
+    nur.repos.xddxdd.qq
+    nur.repos.xddxdd.wechat-uos
+    nur.repos.linyinfeng.wemeet
+    nur.repos.linyinfeng.clash-for-windows
+    nur.repos.eh5.netease-cloud-music
+    nur.repos.rewine.electron-netease-cloud-music
+    # Browser
+    google-chrome
+    microsoft-edge
+    vivaldi
+    vivaldi-ffmpeg-codecs
+    # Theme
+    whitesur-gtk-theme
+    whitesur-icon-theme
+  ];
 
   # Add stuff for your user as you see fit:
   programs = {

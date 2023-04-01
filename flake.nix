@@ -26,6 +26,7 @@
 
   outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
     let
+      nurlock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nur.locked;
       inherit (self) outputs;
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -65,18 +66,17 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main nixos configuration file <
-            nur.nixosModules.nur
             ./nixos/configuration.nix
           ];
         };
       };
 
       # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
+      # Available through 'home-manager --flake .#your-username@your-hostname --impure'
       homeConfigurations = {
         "ayamir@eva00" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs outputs nurlock; };
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/home.nix
