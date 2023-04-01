@@ -246,9 +246,24 @@
     };
   };
 
+  # Install docker and set it with btrfs
+  virtualisation = {
+    docker = {
+      enable = true;
+      storageDriver = "btrfs";
+      # rootless mode: https://docs.docker.com/engine/security/rootless/
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
+    };
+  };
+
+
   # Enable systemd services
   systemd.services = {
     printing.enable = true;
+    docker.enable = true;
   };
 
   # Set environment
