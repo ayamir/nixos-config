@@ -213,34 +213,38 @@
       description = "ayamir";
       extraGroups = [ "wheel" "docker" "networkmanager" "audio" ];
       packages = with pkgs; [
+        # Tools
         gh
-        lsd
-        exa
         hugo
-        fish
         cava
+        copyq
         kitty
-        logseq
-        feishu
-        # wezterm
         lazygit
-        vivaldi
-        tdesktop
+        # wezterm
+        # Note
+        logseq
         obsidian
-        google-chrome
-        microsoft-edge
-        vivaldi-ffmpeg-codecs
-        whitesur-gtk-theme
-        whitesur-icon-theme
+        # Daily
+        feishu
+        tdesktop
         config.nur.repos.xddxdd.qq
         config.nur.repos.xddxdd.wechat-uos
         config.nur.repos.xddxdd.qqmusic
         config.nur.repos.linyinfeng.wemeet
-        config.nur.repos.rewine.ttf-ms-win10
-        config.nur.repos.rewine.ttf-wps-fonts
         config.nur.repos.linyinfeng.clash-for-windows
         config.nur.repos.eh5.netease-cloud-music
         config.nur.repos.rewine.electron-netease-cloud-music
+        # Browser
+        google-chrome
+        microsoft-edge
+        vivaldi
+        vivaldi-ffmpeg-codecs
+        # Theme
+        whitesur-gtk-theme
+        whitesur-icon-theme
+        # Fonts
+        config.nur.repos.rewine.ttf-ms-win10
+        config.nur.repos.rewine.ttf-wps-fonts
       ];
     };
   };
@@ -297,45 +301,60 @@
 
   # Set system packages
   environment.systemPackages = with pkgs; [
-    gh
-    fd
-    go
-    lsd
-    exa
-    fzf
-    git
-    gcc
-    gdb
-    zip
+    # AMD CPU
+    microcodeAmd
+    # AMD GPU
+    amdvlk
+    # Necessary tools
     rar
+    zip
     vim
-    mpv
-    fish
     curl
     wget
     tmux
+    unzip
+    p7zip
+    neofetch
+    # Network
+    iptables
+    # Graphics
+    inxi
+    lshw
+    libva
+    glxinfo
+    xorg.xdpyinfo
+    # Modern tools
+    fd
+    fzf
+    exa
+    lsd
+    fish
+    docker
+    neovim
+    zoxide
+    ripgrep
+    htop-vim # htop with vim keybindings
+    xdg-utils # integration with desktop environment
+    # Multimedia
+    mpv
+    ffmpeg
+    ffmpegthumbnailer
+    # Development
+    go
+    git
+    gcc
+    gdb
     lldb
     llvm
     yarn
+    cargo
     clang
     cmake
-    unzip
-    p7zip
     nginx
     nodejs
-    ffmpeg
-    docker
-    neovim
     sqlite
-    zoxide
-    python
-    gnumake
-    ripgrep
-    neofetch
-    iptables
-    htop-vim
-    xdg-utils
-    python.pkgs.pip
-    ffmpegthumbnailer
+    python # system-wide python
+    python.pkgs.pip # system-wide pip
+    gnumake # make
   ];
 }
