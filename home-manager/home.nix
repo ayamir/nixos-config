@@ -83,7 +83,6 @@
     nur.repos.rewine.electron-netease-cloud-music
     # Browser
     google-chrome
-    microsoft-edge
     # vivaldi
     # vivaldi-ffmpeg-codecs
     # Theme
