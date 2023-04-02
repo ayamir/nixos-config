@@ -76,6 +76,7 @@
     # Daily
     feishu
     tdesktop
+    unstable.go-musicfox
     nur.repos.xddxdd.qq
     nur.repos.xddxdd.wechat-uos
     nur.repos.linyinfeng.wemeet
