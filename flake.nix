@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nvimdots.url = "github:ayamir/nvimdots";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,12 +30,11 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             sharedModules = [
-              inputs.nvimdots.homeManagerModules.nvimdots
+              # inputs.nvimdots.homeManagerModules.nvimdots
             ];
             users.ayamir = {
               imports = [
                 ./home.nix
-                ./programs/nvimdots.nix
               ];
             };
             extraSpecialArgs = inputs;
