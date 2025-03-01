@@ -303,7 +303,15 @@
     usbutils # lsusb
 
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
+
+    libimobiledevice
+    ifuse # optional, to mount using 'ifuse'
   ];
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+  programs.kdeconnect.enable = true;
 
   services = {
     asusd = {
