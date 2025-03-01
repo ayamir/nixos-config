@@ -191,7 +191,6 @@
       noto-fonts-emoji
       twemoji-color-font
       (iosevka-bin.override {variant = "SGr-IosevkaFixed";})
-      # (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "CommitMono" "IBMPlexMono" "ZedMono" "UbuntuMono" ]; })
       pkgs.nerd-fonts.fira-code
       pkgs.nerd-fonts.jetbrains-mono
       pkgs.nerd-fonts.commit-mono
@@ -206,56 +205,6 @@
         monospace = ["Iosevka Fixed" "JetBrains Mono"];
         emoji = ["Twemoji" "Noto Emoji"];
       };
-      localConf = ''
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-        <fontconfig>
-          <!-- Use language-specific font variants. -->
-          ${lib.concatMapStringsSep "\n" (
-            {
-              lang,
-              variant,
-            }: let
-              replace = from: to: ''
-                <match target="pattern">
-                  <test name="lang" compare="contains">
-                    <string>${lang}</string>
-                  </test>
-                  <test name="family">
-                    <string>${from}</string>
-                  </test>
-                  <edit name="family" binding="strong" mode="prepend_first">
-                    <string>${to}</string>
-                  </edit>
-                </match>
-              '';
-            in
-              replace "sans-serif" "Sarasa Gothic ${variant}"
-              + replace "serif" "Sarasa Gothic ${variant}"
-          ) [
-            {
-              lang = "zh";
-              variant = "SC";
-            }
-            {
-              lang = "zh-TW";
-              variant = "TC";
-            }
-            {
-              lang = "zh-HK";
-              variant = "HC";
-            }
-            {
-              lang = "ja";
-              variant = "J";
-            }
-            {
-              lang = "ko";
-              variant = "K";
-            }
-          ]}
-        </fontconfig>
-      '';
     };
   };
 
