@@ -18,7 +18,7 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-      substituters = ["https://mirror.sjtu.edu.cn/nix-channels/store"];
+      substituters = ["https://mirrors.cernet.edu.cn/nix-channels/store" "https://mirror.sjtu.edu.cn/nix-channels/store"];
       auto-optimise-store = true;
     };
     gc = {
@@ -46,8 +46,8 @@
   networking.hostName = "nixos";
 
   # Configure network proxy if necessary
-  networking.proxy.default = "http://127.0.0.1:7890/";
-  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # networking.proxy.default = "http://127.0.0.1:7890/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -303,6 +303,7 @@
     usbutils # lsusb
 
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
+    inputs.zen-browser.packages."${pkgs.system}".specific
 
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
