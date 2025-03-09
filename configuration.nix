@@ -18,7 +18,7 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-      substituters = ["https://mirrors.cernet.edu.cn/nix-channels/store" "https://mirror.sjtu.edu.cn/nix-channels/store"];
+      substituters = ["https://cache.nixos.org/" "https://mirror.sjtu.edu.cn/nix-channels/store"];
       auto-optimise-store = true;
     };
     gc = {
@@ -46,8 +46,8 @@
   networking.hostName = "nixos";
 
   # Configure network proxy if necessary
-  # networking.proxy.default = "http://127.0.0.1:7890/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.proxy.default = "http://127.0.0.1:7890/";
+  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -149,24 +149,24 @@
     shell = pkgs.fish;
     description = "ayamir";
     extraGroups = ["networkmanager" "wheel" "input"];
-    packages = with pkgs; [
-    ];
   };
 
   security.sudo.extraRules = [
     {
-      users = ["ayamir"]; # 替换为你的用户名
+      users = ["ayamir"];
       commands = [
         {
           command = "ALL";
           options = ["NOPASSWD"];
-        } # 允许所有命令免密码
+        }
       ];
     }
   ];
 
   # Install fish
   programs.fish.enable = true;
+
+  # Install neovim
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -303,7 +303,7 @@
     usbutils # lsusb
 
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
-    inputs.zen-browser.packages."${pkgs.system}".specific
+    inputs.zen-browser.packages."${pkgs.system}".default
 
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
