@@ -40,6 +40,7 @@
     };
     kernelPackages = pkgs.linuxPackages_latest;
     initrd.kernelModules = ["amdgpu"];
+    supportedFilesystems = ["ntfs"];
   };
 
   # Define your hostname.
