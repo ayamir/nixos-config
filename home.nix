@@ -12,6 +12,7 @@
   home.packages = with pkgs; [
     alacritty
     kitty
+    ghostty
     tmux
     htop
 
