@@ -220,6 +220,7 @@
     fish
     neofetch
     git
+    git-open
     lazygit
 
     rar
@@ -305,6 +306,8 @@
 
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
     inputs.zen-browser.packages."${pkgs.system}".default
+
+    qt6.full
 
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
