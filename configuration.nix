@@ -250,6 +250,7 @@
     bat
     fsearch
     wl-clipboard
+    rofi
 
     mpv
     vlc
@@ -307,6 +308,7 @@
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
     inputs.zen-browser.packages."${pkgs.system}".default
 
+    microsoft-edge
     qt6.full
 
     libimobiledevice
