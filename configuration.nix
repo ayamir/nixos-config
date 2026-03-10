@@ -7,7 +7,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -17,8 +18,14 @@
   # Enable flakes
   nix = {
     settings = {
-      experimental-features = ["nix-command" "flakes"];
-      substituters = ["https://cache.nixos.org/" "https://mirror.sjtu.edu.cn/nix-channels/store"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      substituters = [
+        "https://cache.nixos.org/"
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+      ];
       auto-optimise-store = true;
     };
     gc = {
@@ -39,8 +46,8 @@
       systemd-boot.enable = true;
     };
     kernelPackages = pkgs.linuxPackages_latest;
-    initrd.kernelModules = ["amdgpu"];
-    supportedFilesystems = ["ntfs"];
+    initrd.kernelModules = [ "amdgpu" ];
+    supportedFilesystems = [ "ntfs" ];
   };
 
   # Define your hostname.
@@ -124,8 +131,11 @@
   services.blueman.enable = true;
   systemd.user.services.mpris-proxy = {
     description = "Mpris proxy";
-    after = ["network.target" "sound.target"];
-    wantedBy = ["default.target"];
+    after = [
+      "network.target"
+      "sound.target"
+    ];
+    wantedBy = [ "default.target" ];
     serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
   };
 
@@ -149,16 +159,20 @@
     isNormalUser = true;
     shell = pkgs.fish;
     description = "ayamir";
-    extraGroups = ["networkmanager" "wheel" "input"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+    ];
   };
 
   security.sudo.extraRules = [
     {
-      users = ["ayamir"];
+      users = [ "ayamir" ];
       commands = [
         {
           command = "ALL";
-          options = ["NOPASSWD"];
+          options = [ "NOPASSWD" ];
         }
       ];
     }
@@ -189,9 +203,11 @@
     fontDir.enable = true;
     enableDefaultPackages = true;
     packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       twemoji-color-font
-      (iosevka-bin.override {variant = "SGr-IosevkaFixed";})
+      (iosevka-bin.override { variant = "SGr-IosevkaFixed"; })
       pkgs.nerd-fonts.fira-code
       pkgs.nerd-fonts.jetbrains-mono
       pkgs.nerd-fonts.commit-mono
@@ -200,11 +216,20 @@
     ];
     fontconfig = {
       enable = true;
+      antialias = true;
+      hinting = {
+        enable = true;
+        style = "slight";  # 可选: none, slight, medium, full
+      };
+      subpixel = {
+        rgba = "rgb";      # 根据显示器调整: rgb, bgr, vrgb, vbgr
+        lcdfilter = "default";
+      };
       defaultFonts = {
-        serif = ["Liberation Serif"];
-        sansSerif = ["Sarasa Gothic SC"];
-        monospace = ["Iosevka Fixed" "JetBrains Mono"];
-        emoji = ["Twemoji" "Noto Emoji"];
+        serif = [ "Noto Serif" "Liberation Serif" ];
+        sansSerif = [ "Noto Sans" "Sarasa Gothic SC" "Liberation Sans" ];
+        monospace = [ "JetBrains Mono Nerd Font" "Liberation Mono" ];
+        emoji = [ "Noto Emoji" "Twemoji" ];
       };
     };
   };
@@ -213,6 +238,8 @@
   # $ nix search wget
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.systemPackages = with pkgs; [
+    home-manager
+
     vim
     neovim
     wget
@@ -307,8 +334,8 @@
 
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
     inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.browser-previews.packages.${pkgs.system}.google-chrome-beta
 
-    microsoft-edge
     qt6.full
 
     libimobiledevice

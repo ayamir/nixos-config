@@ -3,7 +3,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
   ];
 
@@ -16,8 +17,8 @@
     tmux
     htop
 
-    google-chrome
-    firefox
+    claude-code-bun
+    brave
     clash-nyanpasu
     sarasa-gothic
 
@@ -40,7 +41,6 @@
     nur.repos.instantos.spotify-adblock
   ];
 
-  # 启用 starship，这是一个漂亮的 shell 提示符
   programs.starship = {
     enable = true;
     settings = {
@@ -57,15 +57,18 @@
       exec = "wechat-uos -- %U";
       terminal = false;
       icon = "com.tencent.wechat";
-      categories = ["Application" "Utility"];
+      categories = [
+        "Application"
+        "Utility"
+      ];
     };
   };
 
   programs.neovim = {
     enable = true;
     # Python and Lua packages can be easily installed with the corresponding `home-manager` options.
-    extraPython3Packages = ps:
-      with ps; [
+    extraPython3Packages =
+      ps: with ps; [
         numpy
       ];
   };
