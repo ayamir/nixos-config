@@ -27,6 +27,7 @@
 
     gh
     vscode
+    tree-sitter
 
     telegram-desktop
     wechat-uos
