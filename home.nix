@@ -46,7 +46,7 @@
     settings = {
       font-family = "JetBrainsMono Nerd Font";
       theme = "catppuccin-mocha";
-      enableFishIntegration = true;
+      background-opacity = 0.9;
     };
   };
 

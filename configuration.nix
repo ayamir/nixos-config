@@ -36,6 +36,7 @@
         "ayamir"
       ];
       auto-optimise-store = true;
+      pure-eval = false;
     };
     gc = {
       automatic = true;
