@@ -17,7 +17,7 @@
     tmux
     htop
 
-    claude-code-bun
+    claude-code
     brave
     clash-nyanpasu
     sarasa-gothic
