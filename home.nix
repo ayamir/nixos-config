@@ -13,7 +13,6 @@
   home.packages = with pkgs; [
     alacritty
     kitty
-    ghostty
     tmux
     htop
 
@@ -41,6 +40,15 @@
 
     nur.repos.instantos.spotify-adblock
   ];
+
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      font-family = "JetBrainsMono Nerd Font";
+      theme = "catppuccin-mocha";
+      enableFishIntegration = true;
+    };
+  };
 
   programs.starship = {
     enable = true;

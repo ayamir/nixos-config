@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {
@@ -33,7 +33,20 @@
       browser-previews,
       ...
     }@inputs:
+    let
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ nur.overlays.default claude-code.overlays.default ];
+        config.allowUnfree = true;
+      };
+    in
     {
+      homeConfigurations.ayamir = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = inputs;
+        modules = [ ./home.nix ];
+      };
+
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
