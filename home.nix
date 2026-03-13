@@ -39,6 +39,7 @@
     gopeed
 
     nur.repos.instantos.spotify-adblock
+    utools
   ];
 
   programs.ghostty = {

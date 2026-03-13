@@ -11,6 +11,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ayamir-nur = {
+      url = "path:/home/ayamir/nur";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     kwin-effects-forceblur = {
       url = "github:taj-ny/kwin-effects-forceblur";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,13 +34,20 @@
       home-manager,
       nur,
       claude-code,
+      ayamir-nur,
       browser-previews,
       ...
     }@inputs:
     let
       pkgs = import nixpkgs {
         system = "x86_64-linux";
-        overlays = [ nur.overlays.default claude-code.overlays.default ];
+        overlays = [
+          nur.overlays.default
+          claude-code.overlays.default
+          (final: prev: {
+            utools = final.callPackage "${ayamir-nur}/pkgs/utools" { };
+          })
+        ];
         config.allowUnfree = true;
       };
     in
@@ -55,7 +66,12 @@
           nur.modules.nixos.default
           home-manager.nixosModules.home-manager
           {
-            nixpkgs.overlays = [ claude-code.overlays.default ];
+            nixpkgs.overlays = [
+              claude-code.overlays.default
+              (final: prev: {
+                utools = final.callPackage "${ayamir-nur}/pkgs/utools" { };
+              })
+            ];
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;

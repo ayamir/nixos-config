@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "ayamir-nur": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773365417,
+        "narHash": "sha256-DaIrva6cIptIWp0mbodQ5SVikjruDwtFWvEmXnQEweE=",
+        "path": "/home/ayamir/nur",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/ayamir/nur",
+        "type": "path"
+      }
+    },
     "browser-previews": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -236,6 +253,7 @@
     },
     "root": {
       "inputs": {
+        "ayamir-nur": "ayamir-nur",
         "browser-previews": "browser-previews",
         "claude-code": "claude-code",
         "home-manager": "home-manager",
