@@ -15,6 +15,7 @@
     kitty
     tmux
     htop
+    cava
 
     claude-code
     brave
@@ -39,7 +40,6 @@
     gopeed
 
     nur.repos.instantos.spotify-adblock
-    utools
   ];
 
   programs.ghostty = {

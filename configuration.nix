@@ -346,6 +346,7 @@
     iftop # network monitoring
 
     # system call monitoring
+    gdb
     strace # system call monitoring
     ltrace # library call monitoring
     lsof # list open files

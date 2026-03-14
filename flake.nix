@@ -34,7 +34,6 @@
       home-manager,
       nur,
       claude-code,
-      ayamir-nur,
       ...
     }@inputs:
     let
@@ -43,9 +42,6 @@
         overlays = [
           nur.overlays.default
           claude-code.overlays.default
-          (final: prev: {
-            utools = final.callPackage "${ayamir-nur}/pkgs/utools" { };
-          })
         ];
         config.allowUnfree = true;
       };
@@ -67,9 +63,6 @@
           {
             nixpkgs.overlays = [
               claude-code.overlays.default
-              (final: prev: {
-                utools = final.callPackage "${ayamir-nur}/pkgs/utools" { };
-              })
             ];
             home-manager = {
               useGlobalPkgs = true;
