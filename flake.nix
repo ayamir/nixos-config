@@ -35,7 +35,6 @@
       nur,
       claude-code,
       ayamir-nur,
-      browser-previews,
       ...
     }@inputs:
     let

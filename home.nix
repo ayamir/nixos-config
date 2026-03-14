@@ -56,9 +56,20 @@
     settings = {
       aws.disabled = true;
       gcloud.disabled = true;
-      line_break.disabled = true;
+      line_break.disabled = false;
     };
   };
+
+  xdg.configFile."autostart/clash-nyanpasu.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Version=1.0
+    Name=clash-nyanpasu
+    Comment=clash-nyanpasustartup script
+    Exec=${config.home.homeDirectory}/.nix-profile/bin/clash-nyanpasu
+    StartupNotify=false
+    Terminal=false
+  '';
 
   xdg.desktopEntries = {
     wechat = {

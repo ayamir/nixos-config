@@ -229,17 +229,30 @@
       antialias = true;
       hinting = {
         enable = true;
-        style = "slight";  # 可选: none, slight, medium, full
+        style = "slight"; # 可选: none, slight, medium, full
       };
       subpixel = {
-        rgba = "rgb";      # 根据显示器调整: rgb, bgr, vrgb, vbgr
+        rgba = "rgb"; # 根据显示器调整: rgb, bgr, vrgb, vbgr
         lcdfilter = "default";
       };
       defaultFonts = {
-        serif = [ "Noto Serif" "Liberation Serif" ];
-        sansSerif = [ "Noto Sans" "Sarasa Gothic SC" "Liberation Sans" ];
-        monospace = [ "JetBrains Mono Nerd Font" "Liberation Mono" ];
-        emoji = [ "Noto Emoji" "Twemoji" ];
+        serif = [
+          "Noto Serif"
+          "Liberation Serif"
+        ];
+        sansSerif = [
+          "Noto Sans"
+          "Sarasa Gothic SC"
+          "Liberation Sans"
+        ];
+        monospace = [
+          "JetBrains Mono Nerd Font"
+          "Liberation Mono"
+        ];
+        emoji = [
+          "Noto Emoji"
+          "Twemoji"
+        ];
       };
     };
   };
