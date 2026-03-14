@@ -223,6 +223,7 @@
       pkgs.nerd-fonts.commit-mono
       pkgs.nerd-fonts.blex-mono
       pkgs.nerd-fonts.ubuntu-mono
+      pkgs.nerd-fonts.lilex
     ];
     fontconfig = {
       enable = true;

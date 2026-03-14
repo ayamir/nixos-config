@@ -4,6 +4,17 @@
   pkgs,
   ...
 }:
+let
+  imeSwitcherScript = pkgs.writeShellScriptBin "ime-switch" ''
+    export GI_TYPELIB_PATH="${pkgs.glib.out}/lib/girepository-1.0:${pkgs.gobject-introspection}/lib/girepository-1.0''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
+    exec ${
+      pkgs.python3.withPackages (ps: [
+        ps.dbus-python
+        ps.pygobject3
+      ])
+    }/bin/python3 ${./ime-switch.py} "$@"
+  '';
+in
 {
   imports = [
   ];
@@ -40,6 +51,7 @@
     gopeed
 
     nur.repos.instantos.spotify-adblock
+    imeSwitcherScript
   ];
 
   programs.ghostty = {
@@ -47,7 +59,19 @@
     settings = {
       font-family = "JetBrainsMono Nerd Font";
       theme = "catppuccin-mocha";
+      font-style = "SemiBold";
+      font-family-italic = "Lilex";
+      font-style-italic = "SemiBold";
+      font-family-bold-italic = "Lilex";
+      font-style-bold-italic = "Bold";
+      font-size = 11;
       background-opacity = 0.9;
+      macos-option-as-alt = true;
+      link-url = true;
+      cursor-text = "#000000";
+      clipboard-read = "allow";
+      clipboard-write = "allow";
+      copy-on-select = "clipboard";
     };
   };
 
@@ -72,6 +96,16 @@
   '';
 
   xdg.desktopEntries = {
+    google-chrome-beta = {
+      name = "Google Chrome Beta";
+      exec = "google-chrome-beta --enable-features=TouchpadOverscrollHistoryNavigation %U";
+      terminal = false;
+      icon = "google-chrome-beta";
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
+    };
     wechat = {
       name = "Wechat";
       genericName = "Messaging app";
@@ -92,6 +126,40 @@
       ps: with ps; [
         numpy
       ];
+  };
+
+  xdg.configFile."ime-switcher/rules.json".text = builtins.toJSON {
+    rules = {
+      "kitty" = "keyboard-us";
+      "Alacritty" = "keyboard-us";
+      "com.mitchellh.ghostty" = "keyboard-us";
+      "krunner" = "keyboard-us";
+      "org.kde.konsole" = "keyboard-us";
+      "code" = "keyboard-us";
+      "code-url-handler" = "keyboard-us";
+      "google-chrome-beta" = "";
+      "org.telegram.desktop" = "";
+      "obsidian" = "";
+      "org.kde.kate" = "";
+    };
+    default_im = "";
+    remember_state = true;
+  };
+
+  systemd.user.services.ime-switcher = {
+    Unit = {
+      Description = "KDE Wayland + Fcitx5 自动输入法切换器";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${imeSwitcherScript}/bin/ime-switch run";
+      Restart = "on-failure";
+      RestartSec = 3;
+      Environment = [ "PYTHONUNBUFFERED=1" ];
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
   };
 
   systemd.user.startServices = "sd-switch";
