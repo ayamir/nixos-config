@@ -59,8 +59,8 @@ in
     enable = true;
     settings = {
       font-family = [
-        "Maple Mono NF CN"
         "Liga consolaslxgw"
+        "Maple Mono NF CN"
       ];
       theme = "catppuccin-mocha";
       font-style = "SemiBold";
@@ -69,7 +69,7 @@ in
       font-style-italic = "SemiBold";
       font-family-bold-italic = "Lilex";
       font-style-bold-italic = "Bold";
-      font-size = 11;
+      font-size = 14;
       background-opacity = 0.9;
       macos-option-as-alt = true;
       link-url = true;
@@ -163,6 +163,36 @@ in
       Restart = "on-failure";
       RestartSec = 3;
       Environment = [ "PYTHONUNBUFFERED=1" ];
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
+  xdg.configFile."kanata/config.kbd".text = ''
+    (defcfg
+      process-unmapped-keys yes)
+
+    (defsrc
+      caps lctl lalt lmet)
+
+    (deflayer base
+      lctl @ctrl_th lmet lalt)
+
+    (defalias
+      ctrl_th (tap-hold-release 300 300
+        M-spc
+        caps))
+  '';
+
+  systemd.user.services.kanata = {
+    Unit = {
+      Description = "kanata keyboard remapper";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.kanata}/bin/kanata --cfg %h/.config/kanata/config.kbd";
+      Restart = "on-failure";
+      RestartSec = 3;
     };
     Install.WantedBy = [ "graphical-session.target" ];
   };
