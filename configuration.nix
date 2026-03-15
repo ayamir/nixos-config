@@ -216,14 +216,33 @@
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji
+      sarasa-gothic
       twemoji-color-font
-      (iosevka-bin.override { variant = "SGr-IosevkaFixed"; })
       pkgs.nerd-fonts.fira-code
       pkgs.nerd-fonts.jetbrains-mono
-      pkgs.nerd-fonts.commit-mono
-      pkgs.nerd-fonts.blex-mono
-      pkgs.nerd-fonts.ubuntu-mono
       pkgs.nerd-fonts.lilex
+      pkgs.maple-mono.truetype
+      pkgs.maple-mono.NF-unhinted
+      pkgs.maple-mono.NF-CN-unhinted
+      (pkgs.stdenvNoCC.mkDerivation {
+        pname = "consolas-lxgw-wenkai-mono";
+        version = "fb06baa";
+        srcs = [
+          (pkgs.fetchurl {
+            url = "https://raw.githubusercontent.com/MichaelC001/Consolas-Nerd-LXGW-Wenkai-Mono/fb06baa8739d20c5e02cf19ba2554b3a231a700a/consolaslxgw.ttf";
+            sha256 = "0mxh4vqdxhz60azs1sszjchcmlwjc5wamg7a4ivsndlk23rys6xb";
+          })
+          (pkgs.fetchurl {
+            url = "https://raw.githubusercontent.com/MichaelC001/Consolas-Nerd-LXGW-Wenkai-Mono/fb06baa8739d20c5e02cf19ba2554b3a231a700a/Ligaconsolaslxgw.ttf";
+            sha256 = "08g107n2algz6f5plfp99l4jb3wgj8zywlfjcks39nmspq2a2212";
+          })
+        ];
+        unpackPhase = "true";
+        installPhase = ''
+          mkdir -p $out/share/fonts/truetype
+          cp $srcs $out/share/fonts/truetype/
+        '';
+      })
     ];
     fontconfig = {
       enable = true;
@@ -238,15 +257,17 @@
       };
       defaultFonts = {
         serif = [
-          "Noto Serif"
-          "Liberation Serif"
+          "Noto Serif CJK SC"
+          "Sarasa Gothic SC"
         ];
         sansSerif = [
-          "Noto Sans"
+          "Noto Sans SC"
           "Sarasa Gothic SC"
           "Liberation Sans"
         ];
         monospace = [
+          "Maple Mono NF CN"
+          "Liga consolaslxgw"
           "JetBrains Mono Nerd Font"
           "Liberation Mono"
         ];
@@ -320,6 +341,7 @@
     yarn
     python3
 
+    bc
     cowsay
     file
     which

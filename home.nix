@@ -57,9 +57,13 @@ in
   programs.ghostty = {
     enable = true;
     settings = {
-      font-family = "JetBrainsMono Nerd Font";
+      font-family = [
+        "Maple Mono NF CN"
+        "Liga consolaslxgw"
+      ];
       theme = "catppuccin-mocha";
       font-style = "SemiBold";
+      font-family-bold = "Lilex";
       font-family-italic = "Lilex";
       font-style-italic = "SemiBold";
       font-family-bold-italic = "Lilex";
