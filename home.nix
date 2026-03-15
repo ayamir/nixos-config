@@ -40,6 +40,7 @@ in
     vscode
     tree-sitter
 
+    feishu
     telegram-desktop
     wechat-uos
     qq
