@@ -237,24 +237,12 @@ class IMESwitcher:
         old_app = self.current_app
         log.info(f"─── 窗口切换: {old_app!r} → {new_app!r} ───")
 
-        # ── Step 1: 离开旧窗口前，读取并保存其输入法状态 ──────────
+        # ── Step 1: 离开旧窗口 ──────────────────────────────────────
         #
-        # 关键时序：此时焦点已切到新窗口，但 fcitx5 尚未对新窗口
-        # 做任何自动处理，读到的仍是用户在旧窗口里最后手动选择的值。
-        #
-        # 只对「记忆模式」的 app 保存（强制规则的 app 无需记忆，
-        # 因为下次切回去还是会强制覆盖）。
-        if old_app:
-            old_rule = self._get_rule(old_app)
-            if old_rule is None or old_rule == "":
-                im_at_leave = get_current_im()
-                if im_at_leave:
-                    log.info(f"  [离开 {old_app!r}] 读取输入法: {im_at_leave!r}，保存记忆")
-                    self._remember(old_app, im_at_leave)
-                else:
-                    log.warning(f"  [离开 {old_app!r}] 无法读取输入法，记忆未更新")
-            else:
-                log.debug(f"  [离开 {old_app!r}] 强制规则 app，跳过记忆保存")
+        # 不在此处读取 fcitx5 当前输入法：窗口切换时 fcitx5 已对新窗口
+        # 自动切换，此时读到的是新窗口的值，而非旧窗口用户最后的选择。
+        # 轮询定时器（_poll_im）负责实时追踪用户手动切换，memory 中的值
+        # 始终是准确的，无需在离开时重复读取。
 
         # ── Step 2: 更新当前 app ────────────────────────────────
         self.current_app = new_app

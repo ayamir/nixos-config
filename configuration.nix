@@ -275,8 +275,8 @@
           "Liberation Mono"
         ];
         emoji = [
-          "Noto Emoji"
-          "Twemoji"
+          "Noto Color Emoji"
+          "Twitter Color Emoji"
         ];
       };
     };
