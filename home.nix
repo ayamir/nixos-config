@@ -168,9 +168,6 @@ in
   };
 
   xdg.configFile."kanata/config.kbd".text = ''
-    (defcfg
-      process-unmapped-keys yes)
-
     (defsrc
       caps lctl lalt lmet)
 
