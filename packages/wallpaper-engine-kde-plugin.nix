@@ -4,37 +4,21 @@
   pkgs,
   ...
 }: let
-  # References: https://gist.github.com/BBArikL/b389c4592d636380523e03ac423b77b3
-  glslang-submodule = with pkgs;
-    stdenv.mkDerivation {
-      name = "glslang";
-      installPhase = ''
-        mkdir -p $out
-      '';
-      src = fetchFromGitHub {
-        owner = "KhronosGroup";
-        repo = "glslang";
-        rev = "c34bb3b6c55f6ab084124ad964be95a699700d34";
-        sha256 = "IMROcny+b5CpmzEfvKBYDB0QYYvqC5bq3n1S4EQ6sXc=";
-      };
-    };
-
   wallpaper-engine-kde-plugin = with pkgs;
     stdenv.mkDerivation rec {
       pname = "wallpaperEngineKde";
-      version = "96230de92f1715d3ccc5b9d50906e6a73812a00a";
+      version = "f1b86e1ca7982b5b9f47d21ac2cb5c2adfb45902";
       src = fetchFromGitHub {
-        owner = "Jelgnum";
+        owner = "catsout";
         repo = "wallpaper-engine-kde-plugin";
         rev = version;
-        hash = "sha256-vkWEGlDQpfJ3fAimJHZs+aX6dh/fLHSRy2tLEsgu/JU=";
+        hash = "sha256-otdfGa63w1TfMhYFBauJvxV90OqLqJSEvWB2j0W0E5g=";
         fetchSubmodules = true;
       };
 
       nativeBuildInputs = [
         cmake
         kdePackages.extra-cmake-modules
-        glslang-submodule
         pkg-config
         gst_all_1.gst-libav
         shaderc
@@ -67,14 +51,9 @@
       cmakeFlags = ["-DUSE_PLASMAPKG=OFF"];
       dontWrapQtApps = true;
 
-      postPatch = ''
-        rm -rf src/backend_scene/third_party/glslang
-        ln -s ${glslang-submodule.src} src/backend_scene/third_party/glslang
-      '';
-      #Optional informantion
       meta = with lib; {
         description = "Wallpaper Engine KDE plasma plugin";
-        homepage = "https://github.com/Jelgnum/wallpaper-engine-kde-plugin";
+        homepage = "https://github.com/catsout/wallpaper-engine-kde-plugin";
         license = licenses.gpl2Plus;
         platforms = platforms.linux;
       };

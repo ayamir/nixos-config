@@ -52,7 +52,11 @@ in
     gopeed
 
     nur.repos.instantos.spotify-adblock
+    (pkgs.callPackage ./packages/vutronmusic.nix { })
     imeSwitcherScript
+
+    catppuccin-kde
+    catppuccin-cursors.mochaDark
   ];
 
   programs.ghostty = {
@@ -64,10 +68,10 @@ in
       ];
       theme = "catppuccin-mocha";
       font-style = "SemiBold";
-      font-family-bold = "Lilex";
-      font-family-italic = "Lilex";
+      font-family-bold = "Lilex Nerd Font";
+      font-family-italic = "Lilex Nerd Font";
       font-style-italic = "SemiBold";
-      font-family-bold-italic = "Lilex";
+      font-family-bold-italic = "Lilex Nerd Font";
       font-style-bold-italic = "Bold";
       font-size = 14;
       background-opacity = 0.9;
@@ -207,4 +211,12 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.plasma = {
+    enable = true;
+    workspace = {
+      colorScheme = "CatppuccinMochaBlue";
+      cursor.theme = "Catppuccin-Mocha-Dark-Cursors";
+    };
+  };
 }

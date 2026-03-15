@@ -25,6 +25,11 @@
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -50,7 +55,10 @@
       homeConfigurations.ayamir = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = inputs;
-        modules = [ ./home.nix ];
+        modules = [
+          ./home.nix
+          inputs.plasma-manager.homeModules.plasma-manager
+        ];
       };
 
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
@@ -69,6 +77,7 @@
               useUserPackages = true;
               sharedModules = [
                 # inputs.nvimdots.homeManagerModules.nvimdots
+                inputs.plasma-manager.homeModules.plasma-manager
               ];
               users.ayamir = {
                 imports = [
