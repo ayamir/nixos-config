@@ -55,8 +55,13 @@ in
     (pkgs.callPackage ./packages/vutronmusic.nix { })
     imeSwitcherScript
 
-    catppuccin-kde
+    (catppuccin-kde.override {
+      flavour = [ "mocha" "latte" "frappe" "macchiato" ];
+      accents = [ "blue" ];
+    })
     catppuccin-cursors.mochaDark
+    catppuccin-cursors.latteLight
+    pkgs.libnotify
   ];
 
   programs.ghostty = {
