@@ -5,6 +5,64 @@
   ...
 }:
 let
+  switchTmuxTheme = pkgs.writeShellScriptBin "switch-tmux-theme" ''
+    MODE=$1
+    CHADRC=~/.config/nvim/lua/chadrc.lua
+
+    echo "$MODE" > ~/.config/tmux/current-theme
+
+    if [ "$MODE" = "light" ]; then
+      ${pkgs.tmux}/bin/tmux source ~/.config/tmux/themes/latte.conf 2>/dev/null || true
+      NVIM_THEME="catppuccin-latte"
+    else
+      ${pkgs.tmux}/bin/tmux source ~/.config/tmux/themes/mocha.conf 2>/dev/null || true
+      NVIM_THEME="catppuccin"
+    fi
+
+    if [ -f "$CHADRC" ]; then
+      ${pkgs.perl}/bin/perl -i -pe "s/theme = \"catppuccin(?:-latte)?\"/theme = \"$NVIM_THEME\"/" "$CHADRC"
+    fi
+
+    SERVERS=$(${pkgs.lsof}/bin/lsof -U 2>/dev/null | awk '/nvim/ && /\/run\/user/ && !/fzf/ {print $9}')
+    if [ -n "$SERVERS" ]; then
+      for server in $SERVERS; do
+        ${pkgs.neovim}/bin/nvim --server "$server" \
+          --remote-send ":lua require('nvchad.utils').reload()<CR>" \
+          2>/dev/null || true
+      done
+    fi
+  '';
+
+  tmuxThemeWatcher = pkgs.writeShellScriptBin "tmux-theme-watcher" ''
+    query_scheme() {
+      ${pkgs.dbus}/bin/dbus-send --session --print-reply \
+        --dest=org.freedesktop.portal.Desktop \
+        /org/freedesktop/portal/desktop \
+        org.freedesktop.portal.Settings.Read \
+        string:org.freedesktop.appearance string:color-scheme 2>/dev/null |
+        grep -o 'uint32 [0-9]' | awk '{print $2}'
+    }
+
+    apply_scheme() {
+      local value
+      value=$(query_scheme)
+      if [ "$value" = "1" ]; then
+        ${switchTmuxTheme}/bin/switch-tmux-theme dark
+      else
+        ${switchTmuxTheme}/bin/switch-tmux-theme light
+      fi
+    }
+
+    apply_scheme
+
+    ${pkgs.dbus}/bin/dbus-monitor --session \
+      "type='signal',interface='org.freedesktop.portal.Settings',member='SettingChanged'" |
+      grep --line-buffered 'org.freedesktop.appearance' |
+      while read -r _; do
+        apply_scheme
+      done
+  '';
+
   imeSwitcherScript = pkgs.writeShellScriptBin "ime-switch" ''
     export GI_TYPELIB_PATH="${pkgs.glib.out}/lib/girepository-1.0:${pkgs.gobject-introspection}/lib/girepository-1.0''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
     exec ${
@@ -28,6 +86,8 @@ in
     htop
     cava
 
+    switchTmuxTheme
+    tmuxThemeWatcher
     claude-code
     brave
     clash-nyanpasu
@@ -56,7 +116,12 @@ in
     imeSwitcherScript
 
     (catppuccin-kde.override {
-      flavour = [ "mocha" "latte" "frappe" "macchiato" ];
+      flavour = [
+        "mocha"
+        "latte"
+        "frappe"
+        "macchiato"
+      ];
       accents = [ "blue" ];
     })
     catppuccin-cursors.mochaDark
@@ -71,7 +136,7 @@ in
         "Liga consolaslxgw"
         "Maple Mono NF CN"
       ];
-      theme = "catppuccin-mocha";
+      theme = "light:catppuccin-latte,dark:catppuccin-mocha";
       font-style = "SemiBold";
       font-family-bold = "Lilex Nerd Font";
       font-family-italic = "Lilex Nerd Font";
@@ -160,6 +225,18 @@ in
     remember_state = true;
   };
 
+  systemd.user.services.tmux-theme-watcher = {
+    Unit = {
+      Description = "Sync tmux/nvim theme with system light/dark mode";
+    };
+    Service = {
+      ExecStart = "${tmuxThemeWatcher}/bin/tmux-theme-watcher";
+      Restart = "on-failure";
+      RestartSec = 3;
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
   systemd.user.services.ime-switcher = {
     Unit = {
       Description = "KDE Wayland + Fcitx5 自动输入法切换器";
@@ -175,6 +252,9 @@ in
     };
     Install.WantedBy = [ "graphical-session.target" ];
   };
+
+  xdg.configFile."tmux/themes/latte.conf".source = ./tmux-themes/latte.conf;
+  xdg.configFile."tmux/themes/mocha.conf".source = ./tmux-themes/mocha.conf;
 
   xdg.configFile."kanata/config.kbd".text = ''
     (defsrc
