@@ -215,6 +215,23 @@
   fonts = {
     fontDir.enable = true;
     enableDefaultPackages = true;
+    fontconfig.confPackages = [
+      (pkgs.runCommand "60-emoji-embeddedbitmap" { } ''
+        mkdir -p $out/etc/fonts/conf.d
+        cat > $out/etc/fonts/conf.d/60-emoji-embeddedbitmap.conf << 'EOF'
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+        <fontconfig>
+          <!-- Re-enable embedded bitmap for color emoji fonts (CBDT/CBLC),
+               overriding 53-no-bitmaps.conf which runs at position 53. -->
+          <match target="font">
+            <test name="color"><bool>true</bool></test>
+            <edit name="embeddedbitmap" mode="assign"><bool>true</bool></edit>
+          </match>
+        </fontconfig>
+        EOF
+      '')
+    ];
     packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
@@ -279,6 +296,30 @@
           "Twitter Color Emoji"
         ];
       };
+      localConf = ''
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+        <fontconfig>
+          <match target="pattern">
+            <test qual="any" name="family"><string>Sans</string></test>
+            <edit binding="weak" mode="append" name="family">
+              <string>Noto Color Emoji</string>
+            </edit>
+          </match>
+          <match target="pattern">
+            <test qual="any" name="family"><string>sans-serif</string></test>
+            <edit binding="weak" mode="append" name="family">
+              <string>Noto Color Emoji</string>
+            </edit>
+          </match>
+          <match target="pattern">
+            <test qual="any" name="family"><string>monospace</string></test>
+            <edit binding="weak" mode="append" name="family">
+              <string>Noto Color Emoji</string>
+            </edit>
+          </match>
+        </fontconfig>
+      '';
     };
   };
 

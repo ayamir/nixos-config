@@ -177,7 +177,7 @@ in
   xdg.desktopEntries = {
     google-chrome-beta = {
       name = "Google Chrome Beta";
-      exec = "google-chrome-beta --enable-features=TouchpadOverscrollHistoryNavigation %U";
+      exec = "google-chrome-beta --enable-features=TouchpadOverscrollHistoryNavigation --gtk-version=4 %U";
       terminal = false;
       icon = "google-chrome-beta";
       categories = [
