@@ -27,7 +27,7 @@ let
     if [ -n "$SERVERS" ]; then
       for server in $SERVERS; do
         ${pkgs.neovim}/bin/nvim --server "$server" \
-          --remote-send ":lua require('nvchad.utils').reload()<CR>" \
+          --remote-expr "luaeval(\"require('nvchad.utils').reload()\")" \
           2>/dev/null || true
       done
     fi
@@ -296,12 +296,4 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  programs.plasma = {
-    enable = true;
-    workspace = {
-      colorScheme = "CatppuccinMochaBlue";
-      cursor.theme = "Catppuccin-Mocha-Dark-Cursors";
-    };
-  };
 }
