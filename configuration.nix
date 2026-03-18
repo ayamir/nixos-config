@@ -326,6 +326,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
   environment.sessionVariables.LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
   environment.systemPackages = with pkgs; [
     home-manager
@@ -428,7 +429,7 @@
     usbutils # lsusb
 
     inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
-    inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.browser-previews.packages.${pkgs.system}.google-chrome-beta
 
     qt6.full
