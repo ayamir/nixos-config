@@ -360,6 +360,7 @@
     eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
     zoxide
+    yazi
     fd
     tokei
     dust
@@ -368,6 +369,7 @@
     fsearch
     wl-clipboard
     rofi
+    neovide
 
     mpv
     vlc
