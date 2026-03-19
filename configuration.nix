@@ -13,6 +13,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./packages/wallpaper-engine-kde-plugin.nix
+    ./packages/plasma6-window-title-applet.nix
   ];
 
   # Enable flakes
@@ -48,6 +49,7 @@
 
   nixos.pkgs = {
     wallpaper-engine-kde-plugin.enable = true;
+    plasma6-window-title-applet.enable = true;
   };
 
   # Setting for bool options
