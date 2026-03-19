@@ -208,6 +208,9 @@
   };
   hardware.uinput.enable = true;
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    xorg.libxcb
+  ];
   programs.steam.enable = true;
 
   # Allow unfree packages

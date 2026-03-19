@@ -163,6 +163,17 @@ in
     };
   };
 
+  xdg.configFile."autostart/clash-nyanpasu.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Version=1.0
+    Name=clash-nyanpasu
+    Comment=clash-nyanpasustartup script
+    Exec=${config.home.homeDirectory}/.nix-profile/bin/clash-nyanpasu
+    StartupNotify=false
+    Terminal=false
+  '';
+
   xdg.desktopEntries = {
     google-chrome-beta = {
       name = "Google Chrome Beta";
