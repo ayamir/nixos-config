@@ -169,7 +169,7 @@ in
     Version=1.0
     Name=clash-nyanpasu
     Comment=clash-nyanpasustartup script
-    Exec=${config.home.homeDirectory}/.nix-profile/bin/clash-nyanpasu
+    Exec=/etc/profiles/per-user/ayamir/bin/clash-nyanpasu
     StartupNotify=false
     Terminal=false
   '';
