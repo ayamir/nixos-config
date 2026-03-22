@@ -133,6 +133,16 @@
       enable32Bit = true;
     };
   };
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    environmentVariables = {
+      HSA_OVERRIDE_GFX_VERSION = "10.3.0"; # Navi 23 有时需要这个
+      HTTPS_PROXY = "http://127.0.0.1:7890"; # 换成你的代理端口
+      HTTP_PROXY = "http://127.0.0.1:7890";
+      NO_PROXY = "localhost,127.0.0.1";
+    };
+  };
 
   # Bluetooth
   hardware = {
@@ -330,9 +340,12 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
-  environment.sessionVariables.LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
+    # LD_LIBRARY_PATH = "/run/current-system/sw/lib:${pkgs.stdenv.cc.cc.lib}/lib";
+  };
   environment.systemPackages = with pkgs; [
     home-manager
 
@@ -392,6 +405,10 @@
     nodejs
     yarn
     python3
+    sqlite
+    mise
+    uv
+    stdenv.cc.cc.lib
 
     bc
     cowsay
@@ -419,6 +436,10 @@
     btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
+    amdgpu_top
+    radeontop
+    radeon-profile
+    radeontools
 
     # system call monitoring
     gdb
@@ -455,6 +476,8 @@
     };
   };
   services.supergfxd.enable = true;
+
+  programs.direnv.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
