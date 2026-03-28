@@ -459,9 +459,18 @@
     inputs.browser-previews.packages.${pkgs.system}.google-chrome-beta
 
     qt6.full
+    kdePackages.krohnkite
 
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
+
+    typora
+    logseq
+    obsidian
+    obsidian-export
+
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.qmd
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.rtk
   ];
   services.usbmuxd = {
     enable = true;

@@ -89,12 +89,13 @@ in
     switchTmuxTheme
     tmuxThemeWatcher
     claude-code
-    brave
     clash-nyanpasu
     sarasa-gothic
 
     copyq
     kdePackages.kcolorchooser
+    typora
+    logseq
 
     gh
     vscode
@@ -177,7 +178,7 @@ in
   xdg.desktopEntries = {
     google-chrome-beta = {
       name = "Google Chrome Beta";
-      exec = "google-chrome-beta --enable-features=TouchpadOverscrollHistoryNavigation --gtk-version=4 %U";
+      exec = "google-chrome-beta --enable-features=TouchpadOverscrollHistoryNavigation --password-store=basic --gtk-version=4 %U";
       terminal = false;
       icon = "google-chrome-beta";
       categories = [
