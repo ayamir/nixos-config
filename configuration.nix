@@ -75,6 +75,27 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  services.mihomo = {
+    enable = true;
+    tunMode = true;
+    configFile = "/opt/mihomo/config.yaml";
+    webui = pkgs.metacubexd;
+  };
+
+  # Pre-provision geodata files so mihomo doesn't need to download them at startup
+  systemd.services.mihomo.serviceConfig.ExecStartPre =
+    let
+      dataDir = "/var/lib/private/mihomo";
+      geoip = pkgs.v2ray-geoip;
+      geosite = pkgs.v2ray-domain-list-community;
+      mmdb = pkgs.dbip-country-lite;
+    in
+    "+${pkgs.writeShellScript "mihomo-geodata" ''
+      install -m 0644 ${geoip}/share/v2ray/geoip.dat ${dataDir}/geoip.dat
+      install -m 0644 ${geosite}/share/v2ray/geosite.dat ${dataDir}/geosite.dat
+      install -m 0644 ${mmdb}/share/dbip/dbip-country-lite.mmdb ${dataDir}/country.mmdb
+    ''}";
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
@@ -124,36 +145,8 @@
   # AMD GPU settings
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-    "d     /opt/clashtui/mihomo_config  0770  ayamir  mihomo  -  -"
-    "L+    /opt/clashtui/mihomo        -      -       -       -  ${pkgs.mihomo}/bin/mihomo"
   ];
 
-  # mihomo system service for clashtui
-  users.groups.mihomo = { };
-  users.users.mihomo = {
-    isSystemUser = true;
-    group = "mihomo";
-    description = "mihomo service user";
-    home = "/opt/clashtui";
-  };
-
-  systemd.services.clashtui-mihomo = {
-    description = "mihomo Daemon for ClashTUI";
-    after = [ "network.target" "NetworkManager.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "simple";
-      User = "mihomo";
-      Group = "mihomo";
-      LimitNPROC = 500;
-      LimitNOFILE = 1000000;
-      CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_TIME CAP_SYS_PTRACE CAP_DAC_READ_SEARCH CAP_DAC_OVERRIDE";
-      AmbientCapabilities = "CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_TIME CAP_SYS_PTRACE CAP_DAC_READ_SEARCH CAP_DAC_OVERRIDE";
-      Restart = "always";
-      ExecStart = "${pkgs.mihomo}/bin/mihomo -d /opt/clashtui/mihomo_config";
-      ExecReload = "/bin/kill -HUP $MAINPID";
-    };
-  };
   hardware = {
     graphics = {
       extraPackages = with pkgs; [
@@ -559,6 +552,13 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  networking.firewall = {
+    # 把 tun 设备加入信任接口
+    trustedInterfaces = [ "Meta" ]; # mihomo 默认 tun 设备名
+    # 或者关闭 checkReversePath（透明代理常见问题）
+    checkReversePath = false;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
