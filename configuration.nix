@@ -27,10 +27,12 @@
         "https://cache.nixos.org/"
         "https://mirrors.cernet.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"
+        "https://noctalia.cachix.org"
         # "https://cache.garnix.io"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
         # "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       ];
       trusted-users = [
@@ -122,7 +124,36 @@
   # AMD GPU settings
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+    "d     /opt/clashtui/mihomo_config  0770  ayamir  mihomo  -  -"
+    "L+    /opt/clashtui/mihomo        -      -       -       -  ${pkgs.mihomo}/bin/mihomo"
   ];
+
+  # mihomo system service for clashtui
+  users.groups.mihomo = { };
+  users.users.mihomo = {
+    isSystemUser = true;
+    group = "mihomo";
+    description = "mihomo service user";
+    home = "/opt/clashtui";
+  };
+
+  systemd.services.clashtui-mihomo = {
+    description = "mihomo Daemon for ClashTUI";
+    after = [ "network.target" "NetworkManager.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      User = "mihomo";
+      Group = "mihomo";
+      LimitNPROC = 500;
+      LimitNOFILE = 1000000;
+      CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_TIME CAP_SYS_PTRACE CAP_DAC_READ_SEARCH CAP_DAC_OVERRIDE";
+      AmbientCapabilities = "CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_TIME CAP_SYS_PTRACE CAP_DAC_READ_SEARCH CAP_DAC_OVERRIDE";
+      Restart = "always";
+      ExecStart = "${pkgs.mihomo}/bin/mihomo -d /opt/clashtui/mihomo_config";
+      ExecReload = "/bin/kill -HUP $MAINPID";
+    };
+  };
   hardware = {
     graphics = {
       extraPackages = with pkgs; [
@@ -187,6 +218,7 @@
       "wheel"
       "input"
       "uinput"
+      "mihomo"
     ];
   };
 
@@ -471,6 +503,23 @@
 
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.qmd
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.rtk
+
+    # niri + noctalia shell
+    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    brightnessctl
+    imagemagick
+    wlsunset
+    ddcutil
+    cliphist
+
+    # niri 配套工具
+    libinput-gestures # 触摸板手势 → 命令
+
+    grim # 截图
+    slurp # 区域选择（配合 grim）
+    swayidle # 空闲/息屏管理
+    xwayland-satellite # X11 应用支持（niri 无内建 XWayland）
+    libnotify # notify-send 工具
   ];
   services.usbmuxd = {
     enable = true;
@@ -485,6 +534,10 @@
     };
   };
   services.supergfxd.enable = true;
+
+  programs.niri.enable = true;
+
+  services.upower.enable = true;
 
   programs.direnv.enable = true;
 

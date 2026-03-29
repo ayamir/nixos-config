@@ -89,7 +89,7 @@ in
     switchTmuxTheme
     tmuxThemeWatcher
     claude-code
-    clash-nyanpasu
+    clash-verge-rev
     sarasa-gothic
 
     copyq
@@ -163,17 +163,6 @@ in
       line_break.disabled = false;
     };
   };
-
-  xdg.configFile."autostart/clash-nyanpasu.desktop".text = ''
-    [Desktop Entry]
-    Type=Application
-    Version=1.0
-    Name=clash-nyanpasu
-    Comment=clash-nyanpasustartup script
-    Exec=/etc/profiles/per-user/ayamir/bin/clash-nyanpasu
-    StartupNotify=false
-    Terminal=false
-  '';
 
   xdg.desktopEntries = {
     google-chrome-beta = {
