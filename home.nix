@@ -128,22 +128,24 @@ in
     catppuccin-cursors.mochaDark
     catppuccin-cursors.latteLight
     pkgs.libnotify
+
+    linux-wallpaperengine
   ];
 
   programs.ghostty = {
     enable = true;
     settings = {
       font-family = [
+        "JetBrains Mono Nerd Font"
         "Liga consolaslxgw"
         "Maple Mono NF CN"
       ];
-      theme = "light:catppuccin-latte,dark:catppuccin-mocha";
+      theme = "light:nord-light,dark:nord";
       font-style = "SemiBold";
-      font-family-bold = "Lilex Nerd Font";
       font-family-italic = "Lilex Nerd Font";
-      font-style-italic = "SemiBold";
+      font-style-italic = "SemiBold Italic";
       font-family-bold-italic = "Lilex Nerd Font";
-      font-style-bold-italic = "Bold";
+      font-style-bold-italic = "Bold Italic";
       font-size = 14;
       background-opacity = 0.9;
       macos-option-as-alt = true;

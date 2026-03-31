@@ -226,6 +226,7 @@
       ];
     }
   ];
+  security.polkit.enable = true;
 
   # Install fish
   programs.fish.enable = true;
@@ -485,6 +486,8 @@
 
     qt6.full
     kdePackages.krohnkite
+    kdePackages.polkit-kde-agent-1
+    kdePackages.sddm-kcm
 
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
@@ -506,8 +509,10 @@
     cliphist
 
     # niri 配套工具
+    chezmoi
     libinput-gestures # 触摸板手势 → 命令
-
+    gpu-screen-recorder
+    wtype
     grim # 截图
     slurp # 区域选择（配合 grim）
     swayidle # 空闲/息屏管理
