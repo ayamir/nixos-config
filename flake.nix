@@ -3,7 +3,9 @@
 
   nixConfig = {
     extra-substituters = [ "https://noctalia.cachix.org" ];
-    extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
   };
 
   inputs = {
@@ -40,6 +42,7 @@
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
     noctalia.url = "github:noctalia-dev/noctalia-shell";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
   outputs =
@@ -64,10 +67,11 @@
     {
       homeConfigurations.ayamir = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = inputs;
+        extraSpecialArgs = inputs // { inherit inputs; };
         modules = [
           ./home.nix
           inputs.plasma-manager.homeModules.plasma-manager
+          inputs.spicetify-nix.homeManagerModules.spicetify
         ];
       };
 
@@ -92,9 +96,10 @@
               users.ayamir = {
                 imports = [
                   ./home.nix
+                  inputs.spicetify-nix.homeManagerModules.spicetify
                 ];
               };
-              extraSpecialArgs = inputs;
+              extraSpecialArgs = inputs // { inherit inputs; };
             };
           }
         ];

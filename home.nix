@@ -109,10 +109,9 @@ in
     localsend
     discord
     wpsoffice
-    spotify
     gopeed
+    yt-dlp
 
-    nur.repos.instantos.spotify-adblock
     (pkgs.callPackage ./packages/vutronmusic.nix { })
     imeSwitcherScript
 
@@ -140,7 +139,7 @@ in
         "Liga consolaslxgw"
         "Maple Mono NF CN"
       ];
-      theme = "light:nord-light,dark:nord";
+      theme = "light:catppuccin-latte,dark:catppuccin-mocha";
       font-style = "SemiBold";
       font-family-italic = "Lilex Nerd Font";
       font-style-italic = "SemiBold Italic";
@@ -288,4 +287,19 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.spicetify =
+    let
+      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
+    in
+    {
+      enable = true;
+      enabledExtensions = with spicePkgs.extensions; [
+        adblockify
+        hidePodcasts
+        shuffle
+      ];
+      theme = spicePkgs.themes.catppuccin;
+      colorScheme = "mocha";
+    };
 }
