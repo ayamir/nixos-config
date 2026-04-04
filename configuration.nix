@@ -107,7 +107,7 @@
       enable = true;
       fcitx5 = {
         addons = with pkgs; [
-          fcitx5-chinese-addons
+          qt6Packages.fcitx5-chinese-addons
           fcitx5-material-color
           kdePackages.fcitx5-qt
           fcitx5-rime
@@ -133,7 +133,11 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    enableHidpi = true;
+    theme = "breeze";
+  };
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
@@ -150,16 +154,14 @@
   hardware = {
     graphics = {
       extraPackages = with pkgs; [
-        amdvlk
         rocmPackages.clr.icd
-        driversi686Linux.amdvlk
       ];
       enable32Bit = true;
     };
   };
   services.ollama = {
     enable = true;
-    acceleration = "rocm";
+    package = pkgs.ollama-rocm;
     environmentVariables = {
       HSA_OVERRIDE_GFX_VERSION = "10.3.0"; # Navi 23 有时需要这个
       HTTPS_PROXY = "http://127.0.0.1:7890"; # 换成你的代理端口
@@ -245,7 +247,7 @@
   hardware.uinput.enable = true;
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    xorg.libxcb
+    libxcb
   ];
   programs.steam.enable = true;
 
@@ -276,7 +278,7 @@
     packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       sarasa-gothic
       twemoji-color-font
       pkgs.nerd-fonts.fira-code
@@ -380,7 +382,7 @@
     wget
     curl
     fish
-    neofetch
+    fastfetch
     git
     git-open
     lazygit
@@ -394,10 +396,9 @@
     inxi
     lshw
     libva
-    glxinfo
+    mesa-demos
     clinfo
-    amdvlk
-    microcodeAmd
+    microcode-amd
 
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
@@ -480,11 +481,11 @@
     pciutils # lspci
     usbutils # lsusb
 
-    inputs.kwin-effects-forceblur.packages.${pkgs.system}.default
+    inputs.kwin-effects-better-blur-dx.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.browser-previews.packages.${pkgs.system}.google-chrome-beta
+    inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome-beta
 
-    qt6.full
+    kdePackages.breeze
     kdePackages.krohnkite
     kdePackages.polkit-kde-agent-1
     kdePackages.sddm-kcm
@@ -528,7 +529,6 @@
   services = {
     asusd = {
       enable = true;
-      enableUserService = true;
     };
   };
   services.supergfxd.enable = true;

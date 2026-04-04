@@ -105,7 +105,7 @@ in
     telegram-desktop
     wechat-uos
     qq
-    qcm
+    plasmusic-toolbar
     localsend
     discord
     wpsoffice
@@ -139,7 +139,7 @@ in
         "Liga consolaslxgw"
         "Maple Mono NF CN"
       ];
-      theme = "light:catppuccin-latte,dark:catppuccin-mocha";
+      theme = "light:Catppuccin Latte,dark:Catppuccin Mocha";
       font-style = "SemiBold";
       font-family-italic = "Lilex Nerd Font";
       font-style-italic = "SemiBold Italic";
@@ -186,6 +186,17 @@ in
         "Application"
         "Utility"
       ];
+    };
+    obsidian = {
+      name = "Obsidian";
+      exec = "obsidian %u";
+      terminal = false;
+      icon = "obsidian";
+      categories = [ "Office" ];
+      mimeType = [ "x-scheme-handler/obsidian" ];
+      settings = {
+        StartupWMClass = "obsidian";
+      };
     };
   };
 
@@ -300,6 +311,6 @@ in
         shuffle
       ];
       theme = spicePkgs.themes.catppuccin;
-      colorScheme = "mocha";
+      colorScheme = "latte";
     };
 }
