@@ -43,6 +43,13 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    simple-wallpaper-engine = {
+      url = "github:Maxnights/simple-linux-wallpaperengine-gui";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
   outputs =
@@ -74,6 +81,7 @@
           ./home.nix
           inputs.plasma-manager.homeModules.plasma-manager
           inputs.spicetify-nix.homeManagerModules.spicetify
+          inputs.simple-wallpaper-engine.homeManagerModules.default
         ];
       };
 

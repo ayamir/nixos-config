@@ -209,6 +209,22 @@ in
       ];
   };
 
+  programs.spicetify =
+    let
+      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
+    in
+    {
+      enable = true;
+      enabledExtensions = with spicePkgs.extensions; [
+        adblockify
+        hidePodcasts
+        shuffle
+      ];
+      theme = spicePkgs.themes.catppuccin;
+      colorScheme = "latte";
+    };
+  programs.simple-wallpaper-engine.enable = true;
+
   xdg.configFile."ime-switcher/rules.json".text = builtins.toJSON {
     rules = {
       "kitty" = "keyboard-us";
@@ -299,18 +315,4 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.spicetify =
-    let
-      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
-    in
-    {
-      enable = true;
-      enabledExtensions = with spicePkgs.extensions; [
-        adblockify
-        hidePodcasts
-        shuffle
-      ];
-      theme = spicePkgs.themes.catppuccin;
-      colorScheme = "latte";
-    };
 }
