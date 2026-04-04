@@ -3,8 +3,10 @@
   lib,
   pkgs,
   ...
-}: let
-  wallpaper-engine-kde-plugin = with pkgs;
+}:
+let
+  wallpaper-engine-kde-plugin =
+    with pkgs;
     stdenv.mkDerivation rec {
       pname = "wallpaperEngineKde";
       version = "f1b86e1ca7982b5b9f47d21ac2cb5c2adfb45902";
@@ -25,30 +27,35 @@
         ninja
       ];
 
-      buildInputs =
+      buildInputs = [
+        mpv
+        lz4
+        vulkan-headers
+        vulkan-tools
+        vulkan-loader
+      ]
+      ++ (
+        with kdePackages;
+        with qt6Packages;
         [
-          mpv
-          lz4
-          vulkan-headers
-          vulkan-tools
-          vulkan-loader
+          qtbase
+          pkgs.qt6.qtbase
+          pkgs.qt6.qtdeclarative
+          pkgs.qt6.qtwebengine
+          pkgs.qt6.qttools
+          kpackage
+          kdeclarative
+          libplasma
+          qtwebsockets
+          qtwebengine
+          qtwebchannel
+          qtmultimedia
+          qtdeclarative
         ]
-        ++ (with kdePackages;
-          with qt6Packages; [
-            qtbase
-            qt6.full
-            kpackage
-            kdeclarative
-            libplasma
-            qtwebsockets
-            qtwebengine
-            qtwebchannel
-            qtmultimedia
-            qtdeclarative
-          ])
-        ++ [(python3.withPackages (python-pkgs: [python-pkgs.websockets]))];
+      )
+      ++ [ (python3.withPackages (python-pkgs: [ python-pkgs.websockets ])) ];
 
-      cmakeFlags = ["-DUSE_PLASMAPKG=OFF"];
+      cmakeFlags = [ "-DUSE_PLASMAPKG=OFF" ];
       dontWrapQtApps = true;
 
       meta = with lib; {
@@ -58,7 +65,8 @@
         platforms = platforms.linux;
       };
     };
-in {
+in
+{
   options.nixos = {
     pkgs.wallpaper-engine-kde-plugin = {
       enable = lib.mkOption {
@@ -75,7 +83,7 @@ in {
       wallpaper-engine-kde-plugin
       kdePackages.qtwebsockets
       kdePackages.qtwebchannel
-      (python3.withPackages (python-pkgs: [python-pkgs.websockets]))
+      (python3.withPackages (python-pkgs: [ python-pkgs.websockets ]))
     ];
 
     system.activationScripts = {

@@ -11,7 +11,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {
@@ -22,8 +22,8 @@
       url = "path:/home/ayamir/nur";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    kwin-effects-forceblur = {
-      url = "github:taj-ny/kwin-effects-forceblur";
+    kwin-effects-better-blur-dx = {
+      url = "github:xarblu/kwin-effects-better-blur-dx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser = {
@@ -67,7 +67,9 @@
     {
       homeConfigurations.ayamir = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = inputs // { inherit inputs; };
+        extraSpecialArgs = inputs // {
+          inherit inputs;
+        };
         modules = [
           ./home.nix
           inputs.plasma-manager.homeModules.plasma-manager
@@ -99,7 +101,9 @@
                   inputs.spicetify-nix.homeManagerModules.spicetify
                 ];
               };
-              extraSpecialArgs = inputs // { inherit inputs; };
+              extraSpecialArgs = inputs // {
+                inherit inputs;
+              };
             };
           }
         ];
