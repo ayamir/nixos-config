@@ -156,15 +156,6 @@ in
     };
   };
 
-  programs.starship = {
-    enable = true;
-    settings = {
-      aws.disabled = true;
-      gcloud.disabled = true;
-      line_break.disabled = false;
-    };
-  };
-
   xdg.desktopEntries = {
     google-chrome-beta = {
       name = "Google Chrome Beta";
