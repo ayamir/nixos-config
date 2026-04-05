@@ -467,15 +467,15 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1772136897,
-        "narHash": "sha256-2RBgZWq80zXVWyOswUlDaoRZtaeT6pBkbNCLdAzLYoY=",
-        "owner": "Maxnights",
+        "lastModified": 1775317938,
+        "narHash": "sha256-KeGwPV07gaO3+gpasPMlh2R5TZDvY9o1H83xn1NhIow=",
+        "owner": "ayamir",
         "repo": "simple-linux-wallpaperengine-gui",
-        "rev": "43ae644754a0a5e96c8ddb9077843643b74f9acc",
+        "rev": "7e5554af534f0c17c86384b86f6d0270b73a3163",
         "type": "github"
       },
       "original": {
-        "owner": "Maxnights",
+        "owner": "ayamir",
         "repo": "simple-linux-wallpaperengine-gui",
         "type": "github"
       }
