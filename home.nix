@@ -150,7 +150,7 @@ in
       font-style-italic = "SemiBold Italic";
       font-family-bold-italic = "Lilex Nerd Font";
       font-style-bold-italic = "Bold Italic";
-      font-size = 14;
+      font-size = 12;
       background-opacity = 0.9;
       macos-option-as-alt = true;
       link-url = true;
