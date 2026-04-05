@@ -481,11 +481,6 @@
     pciutils # lspci
     usbutils # lsusb
 
-    # jupyter
-    python3Packages.jupyterlab
-    python3Packages.notebook
-    python3Packages.jupyterlab-widgets
-
     inputs.kwin-effects-better-blur-dx.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome-beta
@@ -537,6 +532,78 @@
     };
   };
   services.supergfxd.enable = true;
+
+  systemd.services.jupyter.serviceConfig.User = lib.mkForce "ayamir";
+
+  services.jupyter = {
+    enable = true;
+    port = 8888;
+    password = "";
+    ip = "127.0.0.1";
+    notebookDir = "/home/ayamir/repos/ayamir/learn-infra/notebook";
+    kernels =
+      let
+        mkKernel = name: env: {
+          displayName = name;
+          language = "python";
+          argv = [
+            "${env.interpreter}"
+            "-m"
+            "ipykernel_launcher"
+            "-f"
+            "{connection_file}"
+          ];
+          logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
+          logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
+        };
+        pythonBase = pkgs.python3.withPackages (
+          ps: with ps; [
+            ipykernel
+            numpy
+            pandas
+            matplotlib
+            seaborn
+            scipy
+            requests
+          ]
+        );
+        aiInfra = pkgs.python3.withPackages (
+          ps: with ps; [
+            ipykernel
+            numpy
+            pandas
+            matplotlib
+            torch
+            torchvision
+            tqdm
+            tensorboard
+            datasets
+            transformers
+            ray
+            dask
+            distributed
+            pyarrow
+            duckdb
+            seaborn
+            scipy
+            scikit-learn
+            statsmodels
+            sympy
+            plotly
+            requests
+            beautifulsoup4
+            pillow
+            python-lsp-server
+            pylsp-mypy
+            pylsp-rope
+          ]
+        );
+      in
+      {
+        python-base = mkKernel "Python Base" pythonBase;
+        ai-infra = mkKernel "AI Infra" aiInfra;
+      };
+  };
 
   programs.niri.enable = true;
 
