@@ -131,6 +131,11 @@ in
     linux-wallpaperengine
   ];
 
+  programs.simple-wallpaper-engine = {
+    enable = true;
+    xdgAutostart = true;
+  };
+
   programs.ghostty = {
     enable = true;
     settings = {
@@ -214,7 +219,6 @@ in
       theme = spicePkgs.themes.catppuccin;
       colorScheme = "latte";
     };
-  programs.simple-wallpaper-engine.enable = true;
 
   xdg.configFile."ime-switcher/rules.json".text = builtins.toJSON {
     rules = {

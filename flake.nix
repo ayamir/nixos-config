@@ -104,6 +104,7 @@
                 imports = [
                   ./home.nix
                   inputs.spicetify-nix.homeManagerModules.spicetify
+                  inputs.simple-wallpaper-engine.homeManagerModules.default
                 ];
               };
               extraSpecialArgs = inputs // {

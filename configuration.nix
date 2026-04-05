@@ -481,6 +481,11 @@
     pciutils # lspci
     usbutils # lsusb
 
+    # jupyter
+    python3Packages.jupyterlab
+    python3Packages.notebook
+    python3Packages.jupyterlab-widgets
+
     inputs.kwin-effects-better-blur-dx.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome-beta
