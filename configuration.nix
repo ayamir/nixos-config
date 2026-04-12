@@ -135,7 +135,6 @@
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm = {
     enable = true;
-    enableHidpi = true;
     theme = "breeze";
   };
   services.desktopManager.plasma6.enable = true;
@@ -541,6 +540,17 @@
     password = "";
     ip = "127.0.0.1";
     notebookDir = "/home/ayamir/repos/ayamir/learn-infra/notebook";
+    package = pkgs.python3.pkgs.jupyterlab;
+    command = "jupyter lab";
+    extraPackages = with pkgs.python3.pkgs; [
+      jupyterlab-lsp
+      python-lsp-server # pylsp — launched by jupyter-lsp as subprocess
+      jedi
+      python-lsp-ruff
+      pylsp-mypy
+      pylsp-rope
+    ];
+
     kernels =
       let
         mkKernel = name: env: {
@@ -593,9 +603,6 @@
             requests
             beautifulsoup4
             pillow
-            python-lsp-server
-            pylsp-mypy
-            pylsp-rope
           ]
         );
       in
