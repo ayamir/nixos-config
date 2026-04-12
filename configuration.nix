@@ -544,12 +544,24 @@
     command = "jupyter lab";
     extraPackages = with pkgs.python3.pkgs; [
       jupyterlab-lsp
-      python-lsp-server # pylsp — launched by jupyter-lsp as subprocess
+      jupyter-lsp # 后端，注意是 jupyter-lsp 不是 jupyterlab-lsp
+      python-lsp-server
       jedi
       python-lsp-ruff
       pylsp-mypy
       pylsp-rope
     ];
+
+    # 关键：把 labextensions 路径加进 JUPYTER_PATH
+    extraEnvironmentVariables = {
+      JUPYTER_PATH = lib.concatStringsSep ":" [
+        "${pkgs.python3.pkgs.jupyterlab-lsp}/share/jupyter"
+        "${pkgs.python3.pkgs.jupyter-lsp}/share/jupyter"
+      ];
+    };
+    notebookConfig = ''
+      c.LabServerApp.extra_labextensions_path = ["${pkgs.python3.pkgs.jupyterlab-lsp}/share/jupyter/labextensions"]
+    '';
 
     kernels =
       let
